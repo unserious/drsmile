@@ -23,7 +23,7 @@ public class ApiTest {
         }
         Gson gson = new Gson();
         User userExp = gson.fromJson(rq,User.class);
-        String response = given()
+        User userAct = given()
                 .baseUri("https://jsonplaceholder.typicode.com")
                 .basePath("/users")
                 .contentType(ContentType.JSON)
@@ -31,8 +31,7 @@ public class ApiTest {
                 .when().post()
                 .then()
                 .statusCode(201)
-                .extract().asPrettyString();
-        User userAct = gson.fromJson(response,User.class);
+                .extract().as(User.class);
         Assert.assertEquals("Данные не совпадают: ",userExp,userAct);
     }
 }
